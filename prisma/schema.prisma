@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MemberType {
+  MEMBERSHIP_INDIVIDUAL
+  MEMBERSHIP_CONTRACTOR
+  MEMBERSHIP_CORPORATE
+}
+
+enum MemberStatus {
+  PENDING
+  ACTIVE
+  EXPIRED
+  REJECTED
+}
+
+enum PaymentStatus {
+  INITIATED
+  SUCCESS
+  FAILED
+}
+
+enum PostCategory {
+  NEWS
+  NOTIFICATION
+  TRAINING
+  CONFERENCE
+}
+
+enum SupportType {
+  TENDERING
+  JV_SUBCONTRACTING
+  LEGAL
+}
+
+enum SupportStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+}
+
+model Member {
+  id                 String       @id @default(cuid())
+  name               String
+  email              String       @unique
+  phone              String
+  password           String
+  memberType         MemberType
+  stateChapter       String?
+  status             MemberStatus @default(PENDING)
+  companyName        String?
+  tradeLicenseNumber String?
+  isAdmin            Boolean      @default(false)
+  registrationDate   DateTime     @default(now())
+  membershipExpiry   DateTime?
+  payments           Payment[]
+  supportRequests    SupportRequest[]
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  member            Member?       @relation(fields: [memberId], references: [id])
+  memberId          String?
+  purpose           String        // MEMBERSHIP_INDIVIDUAL | MEMBERSHIP_CONTRACTOR | MEMBERSHIP_CORPORATE | DONATION | SPONSORSHIP | CSR
+  amount            Int
+  currency          String        @default("INR")
+  razorpayOrderId   String?       @unique
+  razorpayPaymentId String?
+  status            PaymentStatus @default(INITIATED)
+  createdAt         DateTime      @default(now())
+}
+
+model StateChapter {
+  id               String @id @default(cuid())
+  name             String
+  region           String?
+  chairpersonName  String?
+  contactInfo      String?
+  description      String?
+}
+
+model NECMember {
+  id           String  @id @default(cuid())
+  name         String
+  designation  String
+  photoUrl     String?
+  bio          String?
+  displayOrder Int     @default(0)
+}
+
+model Post {
+  id             String       @id @default(cuid())
+  title          String
+  body           String
+  category       PostCategory
+  publishDate    DateTime     @default(now())
+  attachmentUrl  String?
+  isMemberOnly   Boolean      @default(false)
+}
+
+model Download {
+  id           String   @id @default(cuid())
+  title        String
+  fileUrl      String
+  category     String?
+  isMemberOnly Boolean  @default(false)
+  uploadedAt   DateTime @default(now())
+}
+
+model GalleryImage {
+  id         String   @id @default(cuid())
+  imageUrl   String
+  caption    String?
+  eventName  String?
+  uploadedAt DateTime @default(now())
+}
+
+model SupportRequest {
+  id          String        @id @default(cuid())
+  member      Member        @relation(fields: [memberId], references: [id])
+  memberId    String
+  type        SupportType
+  description String
+  status      SupportStatus @default(OPEN)
+  createdAt   DateTime      @default(now())
+}

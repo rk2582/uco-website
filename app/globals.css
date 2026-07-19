@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Poppins', sans-serif;
+}
+
+.section-label {
+  @apply text-gold font-heading font-semibold tracking-wider uppercase text-sm;
+}
+
+/* Solid maroon CTA — matches the "Explore Chambers" button */
+.btn-primary {
+  @apply inline-block bg-gold hover:bg-gold-dark text-white font-heading font-semibold px-6 py-3 rounded transition-colors;
+}
+
+/* White pill button — matches the hero "Go Somewhere" button */
+.btn-hero {
+  @apply inline-block bg-white hover:bg-gray-100 text-navy font-heading font-semibold px-7 py-3 rounded-full transition-colors;
+}
+
+/* Thin navy-bordered outline button — matches "Learn More" / "View More" */
+.btn-outline {
+  @apply inline-block border border-navy text-navy hover:bg-navy hover:text-white font-heading font-semibold px-6 py-2.5 rounded transition-colors text-sm;
+}
+
+/* White outline for use on dark backgrounds */
+.btn-outline-white {
+  @apply inline-block border border-white text-white hover:bg-white hover:text-navy font-heading font-semibold px-6 py-2.5 rounded transition-colors text-sm;
+}
+
+.container-page {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
