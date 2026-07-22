@@ -59,7 +59,7 @@ export default function Header() {
           <Image src="/images/uco-logo.jpeg" alt="UCO Logo" width={52} height={52} className="rounded-full" />
           <div className="leading-tight">
             <div className="font-heading font-bold text-navy text-lg">UCO</div>
-            <div className="text-[10px] text-gold font-semibold tracking-wide">CONTRACTORS ORGANISATION</div>
+            <div className="text-[10px] text-gold font-semibold tracking-wide">UNITED CONTRACTORS ORGANISATION</div>
           </div>
         </Link>
 
